@@ -1,8 +1,7 @@
 # Remote Desktop Monitoring System (RDM)
 
-Production-grade remote desktop monitoring platform for company-managed Windows devices.  
-Designed for Facebook marketing operations (50-100 employee PCs), with real-time visibility, policy monitoring, alerting, and remote stream relay.
-
+A Production-Grade Remote Desktop Monitoring Platform for Enterprise Windows Environments.
+Built for organizations managing 50–100 endpoints, RDM delivers real-time screen visibility, centralized device control, policy-based monitoring, intelligent alerting, and low-latency remote stream relay through a scalable, secure architecture.
 ---
 
 ## 1) Project Overview
