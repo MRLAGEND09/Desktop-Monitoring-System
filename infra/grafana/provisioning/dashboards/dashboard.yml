@@ -1,0 +1,15 @@
+# ============================================================================
+# grafana/provisioning/dashboards/dashboard.yml
+# Tells Grafana to load JSON dashboards from the local folder
+# ============================================================================
+apiVersion: 1
+
+providers:
+  - name: RDM
+    orgId: 1
+    folder: "RDM"
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    options:
+      path: /etc/grafana/provisioning/dashboards

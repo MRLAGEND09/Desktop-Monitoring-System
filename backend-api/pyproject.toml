@@ -1,0 +1,16 @@
+[tool.pytest.ini_options]
+asyncio_mode   = "auto"
+testpaths      = ["tests"]
+addopts        = "-v --tb=short --strict-markers"
+markers        = [
+    "slow: marks tests as slow (deselect with -m 'not slow')",
+]
+
+[tool.coverage.run]
+source = ["app"]
+omit   = ["app/middleware/__init__.py", "tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under   = 70

@@ -1,0 +1,72 @@
+{
+  "title": "RDM Overview",
+  "uid": "rdm-overview",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-1h", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Active Devices",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "rdm_active_devices_total", "legendFormat": "" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{"color":"green","value":0}] } } },
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Unresolved Alerts",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "rdm_active_alerts_total", "legendFormat": "" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{"color":"green","value":0},{"color":"yellow","value":1},{"color":"red","value":5}] } } },
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Requests / min",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "sum(rate(rdm_http_requests_total[1m])) * 60", "legendFormat": "" }],
+      "fieldConfig": { "defaults": { "unit": "reqpm", "color": { "mode": "thresholds" }, "thresholds": { "steps": [{"color":"green","value":0}] } } },
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "P95 Latency",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "histogram_quantile(0.95, sum(rate(rdm_http_duration_seconds_bucket[5m])) by (le)) * 1000", "legendFormat": "" }],
+      "fieldConfig": { "defaults": { "unit": "ms", "color": { "mode": "thresholds" }, "thresholds": { "steps": [{"color":"green","value":0},{"color":"yellow","value":200},{"color":"red","value":500}] } } },
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 }
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "HTTP Request Rate by Status",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "sum(rate(rdm_http_requests_total{status=~\"2..\"}[1m])) * 60", "legendFormat": "2xx" },
+        { "expr": "sum(rate(rdm_http_requests_total{status=~\"4..\"}[1m])) * 60", "legendFormat": "4xx" },
+        { "expr": "sum(rate(rdm_http_requests_total{status=~\"5..\"}[1m])) * 60", "legendFormat": "5xx" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "reqpm" } },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 }
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "P50 / P95 / P99 Latency",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "histogram_quantile(0.50, sum(rate(rdm_http_duration_seconds_bucket[5m])) by (le)) * 1000", "legendFormat": "p50" },
+        { "expr": "histogram_quantile(0.95, sum(rate(rdm_http_duration_seconds_bucket[5m])) by (le)) * 1000", "legendFormat": "p95" },
+        { "expr": "histogram_quantile(0.99, sum(rate(rdm_http_duration_seconds_bucket[5m])) by (le)) * 1000", "legendFormat": "p99" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "ms" } },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 }
+    }
+  ]
+}

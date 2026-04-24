@@ -1,0 +1,26 @@
+# RDM Agent configuration
+# Copy to rdm-agent.toml and fill in your values.
+
+# WebSocket URL of the signaling server
+signaling_url = "wss://yourdomain.com/signaling"
+
+# REST API base URL of the backend
+api_url = "https://yourdomain.com/api"
+
+# JWT device token (issued by admin via POST /auth/device-token)
+device_token = "PASTE_DEVICE_TOKEN_HERE"
+
+# Directory for persistent data (identity.json etc.)
+data_dir = "C:/ProgramData/RDMAgent"
+
+# Capture quality
+fps_low     = 2      # frames/sec in grid (low bandwidth) view
+fps_high    = 15     # frames/sec when admin is watching this device
+quality_low  = 30    # JPEG quality for grid view  (0-100)
+quality_high = 80    # JPEG quality for live view   (0-100)
+
+# Heartbeat interval (seconds)
+heartbeat_secs = 30
+
+# Set to false ONLY in development with self-signed certs
+verify_tls = true

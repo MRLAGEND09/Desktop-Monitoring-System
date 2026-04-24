@@ -1,0 +1,26 @@
+# ============================================================================
+# prometheus.yml — Prometheus scrape configuration for RDM
+# ============================================================================
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+  external_labels:
+    project: rdm
+
+# ── Scrape jobs ───────────────────────────────────────────────────────────────
+scrape_configs:
+  - job_name: rdm-backend
+    metrics_path: /metrics
+    # No bearer token needed — Prometheus is on the same Docker network (internal IP)
+    static_configs:
+      - targets: ['backend-api:8000']
+
+  # Optional: scrape signaling server if you add a /metrics endpoint there later
+  # - job_name: rdm-signaling
+  #   static_configs:
+  #     - targets: ['signaling-server:4000']
+
+  # Scrape Prometheus itself
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']

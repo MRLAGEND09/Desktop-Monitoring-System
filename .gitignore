@@ -1,0 +1,54 @@
+# Secrets & env
+.env
+*.local
+
+# Build artifacts
+agent/build/
+agent/.cmake/
+agent/CMakeCache.txt
+agent/CMakeFiles/
+*.o
+*.a
+*.so
+*.dll
+*.exe
+
+# Node
+signaling-server/node_modules/
+backend-api is python, not node
+
+# Python
+backend-api/__pycache__/
+backend-api/.venv/
+backend-api/**/__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.mypy_cache/
+
+# React
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Docker
+infra/certbot/conf/
+infra/certbot/www/
+infra/postgres/data/
+
+# Logs
+*.log
+logs/
+
+# Enrollment logs & PC lists
+agent/enrollment-*.csv
+agent/pcs.csv
+
+# NSIS build output
+agent/*.exe
+agent/*.msi
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp

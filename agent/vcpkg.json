@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "registries": [
+    {
+      "kind": "default",
+      "baseline": "2024-04-01"
+    }
+  ],
+  "dependencies": [
+    "nlohmann-json",
+    "spdlog",
+    "openssl",
+    "zlib",
+    "curl",
+    "websocketpp",
+    "boost-asio",
+    "boost-beast"
+  ]
+}

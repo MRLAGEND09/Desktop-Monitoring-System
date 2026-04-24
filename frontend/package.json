@@ -1,0 +1,41 @@
+{
+  "name": "rdm-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev":     "vite",
+    "build":   "vite build",
+    "preview": "vite preview",
+    "analyze": "vite build --mode analyze",
+    "lint":    "eslint src --ext js,jsx",
+    "e2e":     "playwright test"
+  },
+  "dependencies": {
+    "react":              "^18.3.1",
+    "react-dom":          "^18.3.1",
+    "react-router-dom":   "^6.23.1",
+    "zustand":            "^4.5.2",
+    "axios":              "^1.7.1",
+    "@tanstack/react-query": "^5.37.1",
+    "date-fns":           "^3.6.0",
+    "lucide-react":       "^0.383.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.53.0",
+    "@types/react":       "^18.3.3",
+    "@types/react-dom":   "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "eslint":             "^9.2.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "globals":            "^15.2.0",
+    "@eslint/js":         "^9.2.0",
+    "serve":              "^14.2.3",
+    "vite":               "^5.2.11",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "tailwindcss":        "^3.4.3",
+    "postcss":            "^8.4.38",
+    "autoprefixer":       "^10.4.19"
+  }
+}
