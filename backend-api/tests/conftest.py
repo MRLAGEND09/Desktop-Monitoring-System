@@ -5,6 +5,8 @@
 # Each test gets a fresh DB via function-scoped transaction rollback.
 # ============================================================================
 import asyncio
+from pathlib import Path
+import sys
 import uuid
 from typing import AsyncGenerator, Generator
 
@@ -18,6 +20,11 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.pool import StaticPool
+
+# Ensure the backend package is importable regardless of how pytest is invoked.
+BACKEND_ROOT = Path(__file__).resolve().parents[1]
+if str(BACKEND_ROOT) not in sys.path:
+    sys.path.insert(0, str(BACKEND_ROOT))
 
 from app.db import Base, get_db
 from app.main import app as fastapi_app
