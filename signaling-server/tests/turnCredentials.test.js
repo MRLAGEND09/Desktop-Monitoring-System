@@ -4,7 +4,7 @@
 const crypto = require('crypto');
 
 function loadTurnCredentials(secret = 'test-secret-32-chars-long-enough!') {
-  delete require.cache[require.resolve('../src/turnCredentials')];
+  jest.resetModules();
   process.env.TURN_SECRET  = secret;
   process.env.TURN_DOMAIN  = 'turn.example.com';
   process.env.TURN_PORT    = '3478';
@@ -12,8 +12,15 @@ function loadTurnCredentials(secret = 'test-secret-32-chars-long-enough!') {
 }
 
 describe('turnCredentials', () => {
+  afterEach(() => {
+    delete process.env.TURN_SECRET;
+    delete process.env.TURN_DOMAIN;
+    delete process.env.TURN_PORT;
+    jest.resetModules();
+  });
+
   test('throws without TURN_SECRET', () => {
-    delete require.cache[require.resolve('../src/turnCredentials')];
+    jest.resetModules();
     delete process.env.TURN_SECRET;
     const tc = require('../src/turnCredentials');
     expect(() => tc.generateCredentials('user1')).toThrow('TURN_SECRET');

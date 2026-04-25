@@ -79,7 +79,7 @@ jobs:
           cache-dependency-path: signaling-server/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Jest
         run: npm test -- --coverage
@@ -104,7 +104,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
@@ -113,7 +113,7 @@ jobs:
         run: npm run build
         env:
           VITE_API_URL: "http://localhost:8000"
-          VITE_WS_URL: "ws://localhost:4000"
+          VITE_SIGNALING_URL: "ws://localhost:4000/ws"
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -143,7 +143,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium

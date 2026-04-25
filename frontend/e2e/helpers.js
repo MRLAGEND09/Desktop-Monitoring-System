@@ -6,8 +6,8 @@ import { expect } from '@playwright/test';
  */
 export async function loginAs(page, username, password) {
   await page.goto('/login');
-  await page.getByLabel(/username/i).fill(username);
-  await page.getByLabel(/password/i).fill(password);
+  await page.getByPlaceholder('admin').fill(username);
+  await page.getByPlaceholder('••••••••').fill(password);
   await page.getByRole('button', { name: /sign in/i }).click();
   await expect(page).not.toHaveURL(/\/login/);
 }
@@ -23,8 +23,7 @@ export async function mockLogin(page, role = 'admin') {
       contentType: 'application/json',
       body: JSON.stringify({
         token: buildFakeJwt({ role }),
-        username: 'e2e_user',
-        role,
+        user: { id: 'e2e-user', username: 'e2e_user', role },
       }),
     });
   });
@@ -35,6 +34,9 @@ export async function mockLogin(page, role = 'admin') {
   );
   await page.route('**/alerts**', (route) =>
     route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  );
+  await page.route('**/signaling/turn-credentials', (route) =>
+    route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: 'offline' }) })
   );
 }
 

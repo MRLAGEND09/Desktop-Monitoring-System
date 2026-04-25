@@ -4,7 +4,7 @@
  *
  * Usage: mount once in Layout; it listens to the SSE stream independently.
  */
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { X, AlertTriangle } from 'lucide-react';
 import { useSSE } from '../hooks/useSSE';
 import { useAuthStore } from '../store/auth';

@@ -6,10 +6,9 @@ import uuid
 from datetime import datetime, timezone
 from typing import Optional
 from sqlalchemy import (
-    String, Integer, Boolean, DateTime, Text, ForeignKey, Enum as SAEnum
+    String, Integer, Boolean, DateTime, Text, ForeignKey, Enum as SAEnum, Uuid
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.dialects.postgresql import UUID
 from .db import Base
 
 
@@ -50,7 +49,7 @@ class AlertSeverity(str, enum.Enum):
 class User(Base):
     __tablename__ = "users"
 
-    id:           Mapped[str]           = mapped_column(UUID(as_uuid=False), primary_key=True, default=lambda: str(uuid.uuid4()))
+    id:           Mapped[str]           = mapped_column(Uuid(as_uuid=False), primary_key=True, default=lambda: str(uuid.uuid4()))
     username:     Mapped[str]           = mapped_column(String(64), unique=True, nullable=False)
     password_hash: Mapped[str]          = mapped_column(String(256), nullable=False)
     role:         Mapped[UserRole]      = mapped_column(SAEnum(UserRole), nullable=False, default=UserRole.viewer)
@@ -63,7 +62,7 @@ class User(Base):
 class Device(Base):
     __tablename__ = "devices"
 
-    id:           Mapped[str]           = mapped_column(UUID(as_uuid=False), primary_key=True, default=lambda: str(uuid.uuid4()))
+    id:           Mapped[str]           = mapped_column(Uuid(as_uuid=False), primary_key=True, default=lambda: str(uuid.uuid4()))
     name:         Mapped[str]           = mapped_column(String(128), nullable=False)
     hostname:     Mapped[Optional[str]] = mapped_column(String(128))
     ip_address:   Mapped[Optional[str]] = mapped_column(String(45))
@@ -81,7 +80,7 @@ class ActivityLog(Base):
     __tablename__ = "activity_logs"
 
     id:             Mapped[int]              = mapped_column(Integer, primary_key=True, autoincrement=True)
-    device_id:      Mapped[str]              = mapped_column(UUID(as_uuid=False), ForeignKey("devices.id"), nullable=False)
+    device_id:      Mapped[str]              = mapped_column(Uuid(as_uuid=False), ForeignKey("devices.id"), nullable=False)
     active_app:     Mapped[Optional[str]]    = mapped_column(String(128))
     window_title:   Mapped[Optional[str]]    = mapped_column(Text)
     app_category:   Mapped[AppCategory]      = mapped_column(SAEnum(AppCategory), default=AppCategory.unknown)
@@ -96,7 +95,7 @@ class Alert(Base):
     __tablename__ = "alerts"
 
     id:          Mapped[int]               = mapped_column(Integer, primary_key=True, autoincrement=True)
-    device_id:   Mapped[Optional[str]]     = mapped_column(UUID(as_uuid=False), ForeignKey("devices.id"))
+    device_id:   Mapped[Optional[str]]     = mapped_column(Uuid(as_uuid=False), ForeignKey("devices.id"))
     severity:    Mapped[AlertSeverity]     = mapped_column(SAEnum(AlertSeverity), nullable=False)
     message:     Mapped[str]               = mapped_column(Text, nullable=False)
     resolved_at: Mapped[Optional[datetime]] = mapped_column(DateTime)
@@ -116,14 +115,14 @@ class Webhook(Base):
     severity_filter: Mapped[str]      = mapped_column(String(64), default="")
     is_active:  Mapped[bool]          = mapped_column(Boolean, default=True)
     created_at: Mapped[datetime]      = mapped_column(DateTime, default=utc_now)
-    created_by: Mapped[Optional[str]] = mapped_column(UUID(as_uuid=False), ForeignKey("users.id"))
+    created_by: Mapped[Optional[str]] = mapped_column(Uuid(as_uuid=False), ForeignKey("users.id"))
 
 
 class AuditLog(Base):
     __tablename__ = "audit_logs"
 
     id:         Mapped[int]          = mapped_column(Integer, primary_key=True, autoincrement=True)
-    user_id:    Mapped[Optional[str]] = mapped_column(UUID(as_uuid=False), ForeignKey("users.id"))
+    user_id:    Mapped[Optional[str]] = mapped_column(Uuid(as_uuid=False), ForeignKey("users.id"))
     action:     Mapped[str]          = mapped_column(String(128), nullable=False)
     detail:     Mapped[Optional[str]] = mapped_column(Text)
     created_at: Mapped[datetime]     = mapped_column(DateTime, default=utc_now)

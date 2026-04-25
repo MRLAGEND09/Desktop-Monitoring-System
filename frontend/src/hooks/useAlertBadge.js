@@ -2,7 +2,7 @@
  * useAlertBadge — counts unresolved alerts for the sidebar badge.
  * Uses the SSE stream to increment without full refetch.
  */
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../lib/api';
 import { useSSE } from './useSSE';

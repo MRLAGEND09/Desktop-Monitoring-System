@@ -4,9 +4,9 @@ import { test, expect } from '@playwright/test';
 test.describe('Login page', () => {
   test('renders the sign-in form', async ({ page }) => {
     await page.goto('/login');
-    await expect(page.getByRole('heading', { name: /sign in/i })).toBeVisible();
-    await expect(page.getByLabel(/username/i)).toBeVisible();
-    await expect(page.getByLabel(/password/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /rdm admin/i })).toBeVisible();
+    await expect(page.getByPlaceholder('admin')).toBeVisible();
+    await expect(page.getByPlaceholder('••••••••')).toBeVisible();
     await expect(page.getByRole('button', { name: /sign in/i })).toBeVisible();
   });
 
@@ -21,8 +21,8 @@ test.describe('Login page', () => {
     );
 
     await page.goto('/login');
-    await page.getByLabel(/username/i).fill('wronguser');
-    await page.getByLabel(/password/i).fill('wrongpass');
+  await page.getByPlaceholder('admin').fill('wronguser');
+  await page.getByPlaceholder('••••••••').fill('wrongpass');
     await page.getByRole('button', { name: /sign in/i }).click();
 
     await expect(page.getByText(/invalid credentials/i)).toBeVisible();
@@ -33,7 +33,10 @@ test.describe('Login page', () => {
       route.fulfill({
         status: 200,
         contentType: 'application/json',
-        body: JSON.stringify({ token: 'tok.en.here', username: 'admin', role: 'admin' }),
+        body: JSON.stringify({
+          token: 'tok.en.here',
+          user: { id: 'admin-1', username: 'admin', role: 'admin' },
+        }),
       })
     );
     await page.route('**/devices**', (route) =>
@@ -42,10 +45,13 @@ test.describe('Login page', () => {
     await page.route('**/alerts**', (route) =>
       route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
     );
+    await page.route('**/signaling/turn-credentials', (route) =>
+      route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: 'offline' }) })
+    );
 
     await page.goto('/login');
-    await page.getByLabel(/username/i).fill('admin');
-    await page.getByLabel(/password/i).fill('AdminPass1!');
+    await page.getByPlaceholder('admin').fill('admin');
+    await page.getByPlaceholder('••••••••').fill('AdminPass1!');
     await page.getByRole('button', { name: /sign in/i }).click();
 
     await expect(page).not.toHaveURL(/\/login/);

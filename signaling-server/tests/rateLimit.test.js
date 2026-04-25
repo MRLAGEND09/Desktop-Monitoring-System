@@ -3,8 +3,7 @@
 
 // Reload module fresh for each describe block to get clean Map state
 function loadRateLimit(maxConns = 3) {
-  // Remove from cache so the env var is picked up fresh
-  delete require.cache[require.resolve('../src/rateLimit')];
+  jest.resetModules();
   process.env.WS_MAX_CONNS_PER_IP = String(maxConns);
   return require('../src/rateLimit');
 }
@@ -19,6 +18,10 @@ function makeReq(ip, xff = null) {
 describe('rateLimit — connection tracking', () => {
   let rl;
   beforeEach(() => { rl = loadRateLimit(3); });
+  afterEach(() => {
+    delete process.env.WS_MAX_CONNS_PER_IP;
+    jest.resetModules();
+  });
 
   test('allows connections up to limit', () => {
     const req1 = makeReq('10.0.0.1');
@@ -56,6 +59,10 @@ describe('rateLimit — connection tracking', () => {
 describe('rateLimit — X-Forwarded-For', () => {
   let rl;
   beforeEach(() => { rl = loadRateLimit(2); });
+  afterEach(() => {
+    delete process.env.WS_MAX_CONNS_PER_IP;
+    jest.resetModules();
+  });
 
   test('uses first XFF address', () => {
     const req = makeReq('127.0.0.1', '203.0.113.1, 10.0.0.1');

@@ -14,7 +14,11 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (r) => r,
   (error) => {
-    if (error.response?.status === 401) useAuthStore.getState().logout();
+    const token = useAuthStore.getState().token;
+    const url = error.config?.url ?? '';
+    if (error.response?.status === 401 && token && !url.includes('/auth/login')) {
+      useAuthStore.getState().logout();
+    }
     return Promise.reject(error);
   },
 );

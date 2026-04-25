@@ -1,3 +1,4 @@
+import { createElement } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/auth';
 import { Monitor, Bell, FileText, LogOut, User, Users, Link2 } from 'lucide-react';
@@ -31,13 +32,13 @@ export default function Layout() {
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {NAV.map(({ to, label, Icon, badge }) => {
+          {NAV.map(({ to, label, badge, Icon: NavIcon }) => {
             const active = to === '/' ? pathname === '/' : pathname.startsWith(to);
             return (
               <Link key={to} to={to}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
                   ${active ? 'bg-blue-700 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800'}`}>
-                <Icon className="w-4 h-4" />
+                {createElement(NavIcon, { className: 'w-4 h-4' })}
                 <span className="flex-1">{label}</span>
                 {badge != null && (
                   <span className="text-xs font-bold bg-red-600 text-white rounded-full px-1.5 py-0.5 min-w-[1.25rem] text-center">
