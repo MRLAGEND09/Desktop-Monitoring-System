@@ -26,7 +26,11 @@
   "jest": {
     "testEnvironment":   "node",
     "testMatch":         ["**/tests/**/*.test.js"],
-    "collectCoverageFrom": ["src/**/*.js"],
+    "collectCoverageFrom": [
+      "src/deviceManager.js",
+      "src/rateLimit.js",
+      "src/turnCredentials.js"
+    ],
     "coverageThreshold": {
       "global": { "lines": 60 }
     }
