@@ -98,6 +98,27 @@ class TestHeartbeat:
         assert device.active_app == "Slack"
         assert device.last_seen is not None
 
+    async def test_heartbeat_defaults_to_idle_when_status_missing(
+        self, client: AsyncClient, admin_token: str, device: Device, db: AsyncSession
+    ):
+        token_resp = await client.post(
+            "/auth/device-token",
+            json={"device_id": device.id, "label": ""},
+            headers={"Authorization": f"Bearer {admin_token}"},
+        )
+        device_token = token_resp.json()["token"]
+
+        resp = await client.patch(
+            f"/devices/{device.id}/heartbeat",
+            json={"active_app": "Slack"},
+            headers={"Authorization": f"Bearer {device_token}"},
+        )
+        assert resp.status_code == 200
+
+        await db.refresh(device)
+        assert device.status == DeviceStatus.idle
+        assert device.active_app == "Slack"
+
     async def test_heartbeat_long_hostname_truncated(
         self, client: AsyncClient, admin_token: str, device: Device
     ):

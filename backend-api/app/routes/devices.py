@@ -24,7 +24,7 @@ class HeartbeatBody(BaseModel):
     ip_address:  Optional[str] = None
     os_info:     Optional[str] = None
     active_app:  Optional[str] = None
-    status:      DeviceStatus  = DeviceStatus.online
+    status:      DeviceStatus  = DeviceStatus.idle
 
     @field_validator("hostname", "active_app", mode="before")
     @classmethod
