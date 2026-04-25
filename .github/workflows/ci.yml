@@ -49,7 +49,7 @@ jobs:
           DATABASE_URL: "sqlite+aiosqlite:///:memory:"
           JWT_SECRET: ${{ env.JWT_SECRET }}
           DEVICE_TOKEN_SECRET: ${{ env.DEVICE_TOKEN_SECRET }}
-          PYTHONPATH: .
+          PYTHONPATH: ${{ github.workspace }}/backend-api
         run: |
           pytest --cov=app --cov-report=xml --cov-report=term-missing -q
 
