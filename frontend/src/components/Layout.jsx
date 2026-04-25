@@ -26,7 +26,8 @@ export default function Layout() {
     <div className="flex h-screen overflow-hidden">
       <AlertToast />
       <aside className="w-56 flex-shrink-0 bg-gray-900 border-r border-gray-800 flex flex-col">
-        <div className="px-5 py-5 border-b border-gray-800">
+        <div className="px-5 py-5 border-b border-gray-800 flex flex-col items-center">
+          <img src="/remote-monitoring.png" alt="Logo" className="w-10 h-10 mb-2 rounded" />
           <span className="text-lg font-bold text-white">RDM</span>
           <span className="text-xs text-gray-500 block">Remote Desktop Monitor</span>
         </div>
