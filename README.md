@@ -67,7 +67,7 @@ Nginx
 
 ```text
 Desktop Monitoring System/
-├─ .env.example
+├─ .env
 ├─ .github/
 │  └─ workflows/
 │     └─ ci.yml
@@ -103,7 +103,7 @@ Desktop Monitoring System/
 │  │  └─ turnCredentials.js
 │  └─ tests/
 ├─ backend-api/
-│  ├─ .env.example
+│  ├─ .env
 │  ├─ Dockerfile
 │  ├─ requirements.txt
 │  ├─ pyproject.toml
@@ -148,11 +148,7 @@ Desktop Monitoring System/
 
 ### 4.2 Create Environment File
 
-1. Copy template:
-
-```bash
-cp .env.example .env
-```
+1. Create `.env` in the project root and fill it with your deployment values.
 
 2. Fill required values in `.env`:
 
@@ -203,7 +199,7 @@ cd backend-api
 python -m venv .venv
 source .venv/bin/activate   # Windows PowerShell: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-cp .env.example .env
+# configure backend-api/.env for local backend settings
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
@@ -294,7 +290,7 @@ Use this extension-friendly flow:
 	- Ensure CI passes before merge
 
 7. **Ops and docs**
-	- Update `.env.example`
+	- Update `.env`
 	- Update README sections: config, runbook, troubleshooting
 
 ---
@@ -378,7 +374,7 @@ git commit -m "feat(frontend): add React dashboard, role-based pages, and e2e te
 git add agent
 git commit -m "feat(agent): add Windows C++ monitoring agent with capture and signaling"
 
-git add infra .env.example .github/workflows
+git add infra .env .github/workflows
 git commit -m "chore(infra): add docker-compose stack, nginx, coturn, prometheus, grafana"
 
 git add README.md
