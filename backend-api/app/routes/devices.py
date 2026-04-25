@@ -120,7 +120,7 @@ async def delete_device(
     d = await db.get(Device, device_id)
     if not d:
         raise HTTPException(status_code=404, detail="Device not found")
-    await db.delete(d)
+    db.delete(d)
     return {"ok": True}
 
 

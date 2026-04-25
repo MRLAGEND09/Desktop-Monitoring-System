@@ -67,7 +67,7 @@ async def create_alert(
         "message":    alert.message,
         "created_at": alert.created_at.isoformat(),
     }
-    background.add_task(fire_alert_webhooks, db, payload)
+    background.add_task(fire_alert_webhooks, payload)
     background.add_task(broadcast_alert, payload)
     return {"ok": True, "id": alert.id}
 

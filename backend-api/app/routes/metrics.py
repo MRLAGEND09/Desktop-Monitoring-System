@@ -86,21 +86,23 @@ def _render_histograms() -> list[str]:
 
 async def _render_gauges() -> list[str]:
     async with AsyncSessionLocal() as db:
-        online_count = await db.scalar(
+        online_count_result = await db.execute(
             select(func.count()).select_from(Device).where(
                 Device.status.in_([DeviceStatus.online, DeviceStatus.streaming])
             )
         )
-        alert_count = await db.scalar(
+        alert_count_result = await db.execute(
             select(func.count()).select_from(Alert).where(Alert.resolved_at == None)
         )
+        online_count = online_count_result.scalar() or 0
+        alert_count = alert_count_result.scalar() or 0
     return [
         "# HELP rdm_active_devices_total Devices currently online or streaming",
         "# TYPE rdm_active_devices_total gauge",
-        f"rdm_active_devices_total {online_count or 0}",
+        f"rdm_active_devices_total {online_count}",
         "# HELP rdm_active_alerts_total Unresolved alerts",
         "# TYPE rdm_active_alerts_total gauge",
-        f"rdm_active_alerts_total {alert_count or 0}",
+        f"rdm_active_alerts_total {alert_count}",
     ]
 
 

@@ -17,6 +17,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..config import settings
+from ..db import AsyncSessionLocal
 from ..models import Webhook, AlertSeverity
 
 logger = logging.getLogger("rdm.webhook")
@@ -48,17 +49,18 @@ async def _deliver(url: str, secret: str | None, payload: dict) -> None:
         logger.error("Webhook delivery failed %s: %s", url, exc)
 
 
-async def fire_alert_webhooks(db: AsyncSession, alert_payload: dict) -> None:
+async def fire_alert_webhooks(alert_payload: dict) -> None:
     """
     Load active webhook subscriptions and fire them concurrently.
     Filters by severity_filter if set.
     Runs as a background task — does not raise.
     """
     severity = alert_payload.get("severity", "")
-    result = await db.execute(
-        select(Webhook).where(Webhook.is_active == True)
-    )
-    hooks = result.scalars().all()
+    async with AsyncSessionLocal() as db:
+        result = await db.execute(
+            select(Webhook).where(Webhook.is_active == True)
+        )
+        hooks = result.scalars().all()
     if not hooks:
         return
 

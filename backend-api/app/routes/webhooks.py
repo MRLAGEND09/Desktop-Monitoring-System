@@ -106,7 +106,7 @@ async def delete_webhook(hook_id: int, db: AsyncSession = Depends(get_db)):
     hook = await db.get(Webhook, hook_id)
     if not hook:
         raise HTTPException(status_code=404, detail="Webhook not found")
-    await db.delete(hook)
+    db.delete(hook)
     return {"ok": True}
 
 
