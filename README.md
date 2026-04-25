@@ -337,7 +337,88 @@ Use this extension-friendly flow:
 
 ---
 
-## 8) GitHub Commits (Clean, Professional History)
+## 8) Contributors
+
+Primary GitHub profile for this project:
+
+- MRLAGEND09: https://github.com/MRLAGEND09
+
+---
+
+## 9) Future Roadmap
+
+This section lists the next major product and engineering milestones planned for RDM.
+
+### 9.1 Agent Roadmap
+
+- Add adaptive frame-rate control based on CPU, network quality, and user activity.
+- Add incremental screen region updates so idle desktops do not resend full frames.
+- Add application allowlist/blocklist policy enforcement pushed from the backend.
+- Add offline queueing for heartbeat and activity logs when the endpoint loses connectivity.
+- Add silent auto-update support for Windows agents with rollback protection.
+- Add signed agent enrollment flow with device fingerprint validation.
+
+### 9.2 Backend Roadmap
+
+- Add Alembic migrations and upgrade/downgrade workflows for production schema changes.
+- Add audit log search, retention policies, and export endpoints.
+- Add device grouping, tags, and policy assignment APIs.
+- Add advanced alert rules based on app usage, idle time, device offline duration, and suspicious behavior.
+- Add webhook retry queue with dead-letter handling and delivery history tracking.
+- Add REST pagination, filtering, and sorting across heavy list endpoints.
+- Add background workers for alert fan-out, report generation, and cleanup jobs.
+
+### 9.3 Frontend Roadmap
+
+- Add live device map and device-health overview widgets.
+- Add tenant-ready admin settings pages for policy management.
+- Add alert rule builder UI and webhook management dashboard enhancements.
+- Add richer device drill-down pages for activity timelines and trend charts.
+- Add stream quality controls, session handoff, and view-only vs control permissions.
+- Add reporting pages for productivity summaries, risk events, and per-device usage analytics.
+
+### 9.4 Signaling and Streaming Roadmap
+
+- Add horizontal scaling support using shared session coordination.
+- Add connection quality telemetry and relay fallback analytics.
+- Add stream session recording metadata for compliance workflows.
+- Add TURN usage metrics and abuse throttling.
+- Add viewer-device session authorization expiry and revalidation during long sessions.
+
+### 9.5 Security Roadmap
+
+- Add MFA for dashboard users.
+- Add device certificate-based trust in addition to JWT device tokens.
+- Add IP restrictions, session anomaly detection, and forced logout controls.
+- Add signed webhook payload versioning and replay protection.
+- Add secrets rotation runbooks and admin security audit screens.
+
+### 9.6 Observability and Operations Roadmap
+
+- Add production dashboards for API latency, stream health, device online rate, and alert throughput.
+- Add log aggregation support with structured shipping to a central backend.
+- Add backup/restore runbooks for PostgreSQL, Grafana, and persistent config.
+- Add health probes for agent enrollment, webhook delivery, SSE fan-out, and TURN availability.
+- Add release promotion workflow for dev, staging, and production environments.
+
+### 9.7 Team and Collaboration Roadmap
+
+- Add `CONTRIBUTING.md` with branch strategy, coding standards, and review rules.
+- Add issue templates for bugs, feature requests, and security reports.
+- Add pull request template with testing checklist and rollout notes.
+- Add ownership notes for backend, frontend, signaling, infra, and agent surfaces.
+
+### 9.8 Suggested Milestone Sequence
+
+1. Stabilize backend CI until pytest is consistently green.
+2. Add migrations and production-safe DB upgrade flow.
+3. Add policy management, device grouping, and alert rule builder.
+4. Add agent auto-update and secure enrollment hardening.
+5. Add advanced dashboards, reports, and long-term observability.
+
+---
+
+## 10) GitHub Commits (Clean, Professional History)
 
 Use this commit sequence:
 
@@ -383,7 +464,7 @@ git commit -m "docs: add full project architecture, setup, runbook, and troubles
 
 ---
 
-## 9) Production Notes
+## 11) Production Notes
 
 - Change all default/placeholder secrets before deployment.
 - Run behind TLS (Nginx + Certbot already scaffolded).
